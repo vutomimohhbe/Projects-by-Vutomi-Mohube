@@ -1,4 +1,1 @@
-# cos101-git-prac
-cos101 git practical
-vutomi mohube
-20/08/2022
+THIS BRANCH CONSISTS OF ALL OF MY PROJECTS
