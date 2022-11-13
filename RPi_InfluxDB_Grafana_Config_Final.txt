@@ -1,0 +1,174 @@
+1. Install VirtualBox
+1b. Configure VB
+2. Install Raspberry OS
+2b. Configure -> enable SSH if required
+3. Install SensorHAT Emu
+should be installed but if not...
+sudo apt-get update
+sudo apt-get install python-sense-emu python3-sense-emu python-sense-emu-doc sense-emu-tools -y
+3b. RPi -> Programming -> SensorHAT emu
+3c. You should also have Thonny IDE installed
+
+
+4. Install InfluxDB
+a. install repo by copying these lines and pasting into Terminal
+
+wget -qO- https://repos.influxdata.com/influxdb.key | sudo apt-key add -
+source /etc/os-release
+echo "deb https://repos.influxdata.com/debian $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/influxdb.list
+
+4b. install by copying these into the Terminal
+
+sudo apt update && sudo apt install -y influxdb
+
+
+4c. Now to install influx, copy paste this line
+
+pip3 install influx 
+
+#this is requried later by Python 3.7 
+
+5. install grafana
+Download the deb file and use sudo dpkg to install
+
+###if u r using raspberry os on PC, install the AMD64 format and version 6.7.3 - NEWER VERSIONS FAIL TO START ON RPi
+if u r using the actual raspberry pi, then install ARM64 and version 6.7.3
+
+Paste these lines into your Terminal - remb to change AMD64 or ARM64
+
+sudo apt-get install -y adduser libfontconfig1
+wget https://dl.grafana.com/oss/release/grafana-rpi_6.7.3_amd64.deb
+
+This would download the file. Might take a few minutes. When completed, paste the next line
+
+sudo dpkg -i grafana-rpi_6.7.3_amd64.deb
+
+remb to change to AMD64 or ARM64 as appropriate
+
+===========================================================================================
+6. config influxDB
+6a. To make it start on bootup, copy these lines...
+
+sudo systemctl unmask influxdb.service
+sudo systemctl start influxdb
+sudo systemctl enable influxdb.service
+
+
+#To check status of influx, paste any of these 
+
+sudo service influxdb status 
+or
+sudo systemctl influxdb status
+
+You should see ACTIVE in GREEN colour
+
+6b. To start INFLUXDB type
+ influx
+
+ii. to create a database and user type the following
+
+create database [YOUR_DB_NAME_GOES_HERE]
+use [YOUR_DB_NAME_GOES_HERE]
+
+iii. To create a user and grant the user admin access / rights, type
+
+create user USER_NAME with password 'USER_PASSWORD' with all privileges
+grant all privileges on YOUR_DB_NAME_GOES_HERE to USER_NAME
+
+iv. To view all users, type...
+
+show users
+
+7. config grafana, paste the following lines...
+
+sudo systemctl daemon-reload
+sudo systemctl enable grafana-server
+sudo systemctl start grafana-server
+
+7b. to start on bootup, type...
+
+sudo systemctl unmask grafana-server.service
+
+7c. check status of grafana, type 
+
+ sudo systemctl status grafana-server
+
+7c. to check status of grafana via browser, open your browser and enter
+
+http://<ipaddress>:3000 or http://localhost:3000
+The default username & password is admin, please change this on first log in
+
+7d. change the password to ....
+
+8. add influxDB as datasource for grafana
+a. log into grafana
+b. Datasource -> influxDB 
+c. URL = localhost if both grafana and influx are running on the same pi or the IP addess of your raspberry pi, if running on different systems.
+d. port = 8086
+
+e. add the db and its user and password
+db = YOUR_DB_NAME_GOES_HERE
+user = USER_NAME, pwd = USER_PASSWORD
+f. click save & test 
+You should see "data source is working"
+=================================================================================
+9. read from sensorHAT emu
+sensor.get_temperature... 
+see full code attached
+
+10. Saving to db
+10a. from influx import InfluxDBClient
+10a. from datetime import datetime
+10b. connect to db
+10c.
+# Settings for database connection
+hostname = 'localhost' or '127.0.0.1'
+port = '8086'
+username = 'tracker1'
+password = '$tracker1$'
+database = 'truckDB'
+ifclient = InfluxDBClient(hostname, port, username, password,database)
+
+10d. Get readings from sensor
+import datetime
+timestamp = datetime.now()
+tp = str(round (sensor.getTemperature(), 1))
+hm =
+pz = 
+y
+...
+
+#create an array/list
+json_payload = [] 
+
+#create a dictionary 
+readings = {}
+
+#create the content as JSON format
+readings['measurement'] = tableName
+readings['time'] = timestamp
+readings['tag'] = {'truckID':'TK001'}
+readings['fields'] = {
+'temp': tp,
+'humidity': hm,
+'pressure': pz
+}
+....
+
+#save the readings into the list
+json_payload.append(readings)
+
+#write the payload into the db
+response = ifclient.write_points(json_payload)
+
+if (response):
+print("Saving successful")
+else
+print("Saving failed")
+
+==================================================================
+
+
+
+
+
