@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Declaration</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="bg-gray-900 text-gray-200 min-h-screen flex items-center justify-center">
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+        <h1 class="text-2xl font-bold mb-4">Declaration</h1>
+        <p>This phishing email detector is provided for educational and experimental purposes only. It is not a certified security tool and should not be used as a substitute for professional cybersecurity services.</p>
+        <p><strong>Disclaimer:</strong> We are not liable for any misclassification, damages, or losses resulting from the use of this tool. Use it at your own risk.</p>
+        <p><strong>Privacy:</strong> Uploaded email content is not stored or shared with third parties.</p>
+        <p>For concerns, contact us at u22679139@tuks.co.za.</p>
+
+        <form method="POST" class="mt-6">
+            <div class="flex items-center">
+                <input type="checkbox" id="agree" name="agree" class="mr-2">
+                <label for="agree" class="text-sm">I agree to the terms of this declaration.</label>
+            </div>
+            {% if error %}
+                <p class="text-red-500 text-sm mt-2">{{ error }}</p>
+            {% endif %}
+            <button type="submit" class="w-full py-2 mt-4 bg-green-600 hover:bg-green-700 rounded-md font-semibold">Proceed</button>
+        </form>
+    </div>
+</body>
+</html>

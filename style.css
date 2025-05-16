@@ -1,0 +1,85 @@
+/* Base Background */
+body {
+    background-image: url("background_image.png");
+    font-family: 'Courier New', Courier, monospace;
+    color: #e6edf3;
+}
+
+/* Container Styling */
+div.bg-white {
+    background-color: #161b22;
+    border: 1px solid #30363d;
+    color: #e6edf3 !important;
+}
+
+/* Ensure all text inside the container is visible */
+div.bg-white p,
+div.bg-white label,
+div.bg-white strong {
+    color: #e6edf3 !important;
+}
+
+/* Headings */
+h1 {
+    color: #58a6ff;
+    text-shadow: 0 0 5px rgba(88, 166, 255, 0.5);
+}
+
+/* Labels and Text */
+label {
+    color: #c9d1d9;
+}
+
+/* Textarea and Input File */
+textarea,
+input[type="file"] {
+    background-color: #0d1117;
+    border: 1px solid #30363d;
+    color: #e6edf3;
+}
+
+textarea:focus,
+input[type="file"]:focus {
+    outline: none;
+    border-color: #58a6ff;
+    box-shadow: 0 0 5px #58a6ff;
+}
+
+/* File input override */
+input[type="file"]::file-selector-button {
+    background-color: #21262d;
+    color: #58a6ff;
+    border: none;
+    font-weight: bold;
+}
+
+input[type="file"]::file-selector-button:hover {
+    background-color: #30363d;
+}
+
+/* Submit Button */
+button[type="submit"] {
+    background-color: #238636;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #2ea043;
+}
+
+/* Result Box */
+div.bg-gray-200 {
+    background-color: #1f2937;
+    color: #e6edf3;
+    border-left: 4px solid #58a6ff;
+}
+
+/* Decision Rule Styling */
+div.bg-gray-200 ul {
+    color: #e6edf3;
+    margin-left: 1rem;
+}
+div.bg-gray-200 li {
+    color: #e6edf3;
+}
